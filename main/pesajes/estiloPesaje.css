@@ -1,0 +1,270 @@
+/* QUITAR LOS BOTON DE INCREMNETO Y DECREMENTO DE LOS INPUTS TIPO NUMBER */
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+
+/* BOTONES DE REPRODUCCION */
+.contenedorReproduccion{
+    width: 100%;
+    height: 60px;
+    /* position: absolute; */
+    /* background-color: red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.subContenedorReproduccion{
+    /* background-color: #4CFF48; */
+    width: 300px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.botonesReproduccion img{
+    width: 30px;
+    object-fit: contain;
+    cursor: pointer;
+    transition: 0.1s ease-in-out all;
+    filter: drop-shadow(1px 1px 0px #fff );
+    margin-right: 1rem;
+}
+.botonesReproduccion img:hover{
+    transform: scale(1.1);
+}
+
+
+
+
+.cuerpo{
+    display: block;
+    color: #fff;
+    padding: 20px;
+}
+
+.contenedorTitulo{
+    /* background-color: red; */
+    padding-left: 10px;
+    border-left: 4px solid #5E36FF;
+}
+.contenedorTitulo h1{
+    font-weight: 400;
+
+}
+
+
+
+
+/* CABECERA AUXILIAR */
+.cabeceraAuxiliar{
+    background-color: #303039;
+    width: 100%;
+    min-height: 100px;
+}
+
+
+/* INPUTS DATOS */
+.inputDatos{
+    width: 150px;
+    border-radius: 0;
+}
+
+
+/* INPUTS NOMBRES / DERECHA */
+.inputNombre{
+    padding: 0px 10px;
+    font-size: 2rem;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    border-bottom: 1px solid #868686;
+    border-right: 1px solid #868686;
+}
+.inputNombre::placeholder, .inputCedula::placeholder {
+    color: #fff;
+}
+
+.inputCedula{
+    padding: 0px 10px;
+    font-size: 1.2rem;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    width: 170px;
+}
+
+.inputSecundario{
+    padding: 0px 10px;
+    font-size: 1.2rem;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+}
+
+.inputTelfono{
+    width: 120px;
+
+}
+.inputOpcionalCabecera{
+    width: 50%;
+}
+
+
+
+/* TABLA */
+.contenedorTabla{
+    width: 100%;
+    overflow-x: scroll;
+}
+.numero{
+    text-align: center;
+}
+.botonAgregar{
+    background-color: #5E36FF;
+    color: #fff;
+    width: 100px;
+}
+.botonAgregar:hover{
+    border: 1px solid #fff;
+}
+
+
+
+/* DETALLES PRECIO */
+.contenedorPrecio{
+    width: 220px;
+    /* background-color: red; */
+}
+.contenedorPrecio ul{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.contenedorPrecio ul li{
+    width: 100%;
+    /* background-color: royalblue; */
+    display: flex;
+    justify-content: space-between;
+}
+.contenedorPrecioFinal{
+    width: 220px;
+    height: 75px;
+    background-color: #424242;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4CFF48;
+}
+.contenedorPrecioFinal h5{
+    font-size: 2rem;
+}
+
+
+
+
+/* BOTONES GUARDAR */
+.contenedorBotonesGuardar{
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 5rem;
+}
+.botonGuardar{
+    background-color: #5E36FF;
+    color: #fff;
+    min-width: 250px;
+}
+.botonGuardar:hover{
+    background-color: #2f06d1;
+    color: #fff;
+}
+.botonGuardarImprimir{
+    min-width: 250px;
+
+}
+.botonGuardado{
+    background-color: #424242;
+    cursor: not-allowed;
+}
+
+
+
+
+
+@media screen and (max-width:900px) {
+    .descripcionTabla{
+        min-width: 250px !important;
+
+    }
+
+}
+
+
+@media screen and (max-width:575px) {
+    .contenedorBotonesGuardar{
+        justify-content: center;
+        align-items: center;
+    }
+    .botonGuardar{
+        min-width: 150px;
+    }
+    .botonGuardarImprimir{
+        min-width: 150px;
+    
+    }
+
+    .inputOpcionalCabecera{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width:500px) {
+    .inputNombre{
+        font-size: 1.3rem;
+    }
+    .inputCedula, .inputSecundario{
+        font-size: 1rem;
+
+    }
+}
+
+
+
+
+/* SCROLL */
+.contenedorTabla::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.contenedorTabla::-webkit-scrollbar:vertical {
+    width:10px;
+}
+
+.contenedorTabla::-webkit-scrollbar-button:increment,.contenedorTabla::-webkit-scrollbar-button {
+    display: none;
+} 
+
+.contenedorTabla::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.contenedorTabla::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+}
+
+.contenedorTabla::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}

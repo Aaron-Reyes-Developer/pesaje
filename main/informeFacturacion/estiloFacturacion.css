@@ -1,0 +1,33 @@
+.cuerpo{
+    display: block;
+    color: #fff;
+    padding: 20px;
+}
+
+.contenedorTitulo{
+    /* background-color: red; */
+    padding-left: 10px;
+    border-left: 4px solid #5E36FF;
+}
+.contenedorTitulo h1{
+    font-weight: 400;
+
+}
+
+
+
+/* BOTON GENERAR REPORTE */
+.botonGenerar{
+    background-color: #5E36FF;
+    color: #fff;
+}
+
+
+/* TABLA */
+.contendorTabla{
+    width: 100%;
+    height: auto;
+    overflow-x: auto;
+}
+
+
