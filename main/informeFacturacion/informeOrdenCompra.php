@@ -180,6 +180,7 @@ if (!isset($_SESSION['usuario'])) {
     <script src="../../alertaPersonalizada.js"></script>
 
     <script src="../../main/fuincionesJs/truncarDecimal.js"></script>
+    <script src="../../main/fuincionesJs/fechaActual.js"></script>
 
 
     <script>
@@ -320,11 +321,13 @@ if (!isset($_SESSION['usuario'])) {
         }
 
         // MOSTRAR LA FECHA DE EMICION EN EL INPUT, CABECERA AUXILIAR
+        const hoy = new Date();
         let fecha_desde = document.getElementById('fecha_desde')
         let fecha_hasta = document.getElementById('fecha_hasta')
-        let fecha_actual = new Date().toISOString().split('T')[0];
-        fecha_hasta.value = fecha_actual
-        fecha_desde.value = fecha_actual
+        // let fecha_actual = new Date().toISOString().split('T')[0];
+        const fechaFormateada = obtenerFechaFormateada(hoy);
+        fecha_hasta.value = fechaFormateada
+        fecha_desde.value = fechaFormateada
 
 
         // GENERAR EL INFORME EXEL

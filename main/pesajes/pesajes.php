@@ -41,6 +41,7 @@ $arrayCabeceraAuxiliar = odbc_fetch_array($queryCabeceraAuxiliar);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <!-- CSS -->
+    <link rel="stylesheet" href="../estiloLoader.css">
     <link rel="stylesheet" href="../estiloMain.css">
     <link rel="stylesheet" href="../estiloModal.css">
     <link rel="stylesheet" href="../../estiloAlerta.css">
@@ -53,7 +54,14 @@ $arrayCabeceraAuxiliar = odbc_fetch_array($queryCabeceraAuxiliar);
 <body style="background-color: #24242C;">
 
     <!-- MODAL -->
-    <div class="contenedorModal" id="contenedorModal"></div>
+    <div class="contenedorModal" id="contenedorModal">
+
+        <!-- LOADER -->
+        <div class="contenedorLoader" id="contenedorLoader">
+
+        </div>
+
+    </div>
 
     <!-- IZQUERDA -->
     <aside class="aside" id="aside">
@@ -438,12 +446,14 @@ $arrayCabeceraAuxiliar = odbc_fetch_array($queryCabeceraAuxiliar);
 
 
     <script src="../fuincionesJs/truncarDecimal.js"></script>
+    <script src="../fuincionesJs/fechaActual.js"></script>
 
     <script>
         let contenedorBotonesGuardar = document.getElementById('contenedorBotonesGuardar')
 
         // MODAL
         let contenedorModal = document.getElementById('contenedorModal')
+        let contenedorLoader = document.getElementById('contenedorLoader')
 
         let aside = document.getElementById('aside')
         let imagenBar = document.getElementById('imagenBar')
@@ -479,6 +489,22 @@ $arrayCabeceraAuxiliar = odbc_fetch_array($queryCabeceraAuxiliar);
         let verQQneto = document.getElementById(`verQQneto`)
         let verPrecio = document.getElementById(`verPrecio`)
         let verHumedad = document.getElementById(`verHumedad`)
+
+
+        // LOADER
+        const loader = () => {
+
+            contenedorLoader.innerHTML = `
+            <div class="subContenedorLoader">
+                <div class="custom-loader"></div>
+            </div> 
+            `
+        }
+
+        const cerrarLoader = () => {
+
+            contenedorLoader.remove()
+        }
 
 
         // CERRAR MODAL
@@ -991,6 +1017,7 @@ $arrayCabeceraAuxiliar = odbc_fetch_array($queryCabeceraAuxiliar);
         // OBTENER DATOS DEL PROVEEDOR (cabecera auxuliar)
         const obtenerDatosProveedor = (dato) => {
 
+            loader()
             let FD = new FormData()
 
             FD.append('dato', dato)
@@ -1002,108 +1029,209 @@ $arrayCabeceraAuxiliar = odbc_fetch_array($queryCabeceraAuxiliar);
                 .then(res => res.json())
                 .then(data => {
 
+                    // si no hay datos del proveedor
                     if (data.length <= 0) {
 
-                        contenedorModal.innerHTML = `
-                            <div class="subContenedorModal" id="subContenedorModal">
-                            
-                                <form action="" id="formularioModalProveedor" class="formularioModal">
+                        // hacemos otro fecht para ver si hay datos con la identificación
+                        let urlWebService = `http://factura.omegas-apps.com:3001/administracion/getCedula/${dato}`
 
-                                    <!-- TITULO -->
-                                    <div class="contenedorTituloModal">
-                                        <h2>Agregar Proveedor</h2>
-                                        <hr>
-                                    </div>
+                        console.log(urlWebService);
 
-                                    <!-- CERRAR -->
-                                    <span class="cerrarModal" onclick="cerrarModal()">X</span>
-
-                                    <!-- INPUTS -->
-                                    <div class="row">
-                                    
-                                        <div class="mb-3 col-6">
-                                            <label for="nombre" class="form-label">Nombres* </label>
-                                            <input type="text" class="form-control" id="nombre" name="nombre"  requerid>
-                                        </div>
-
-                                        <div class="mb-3 col-6">
-                                            <label for="identificacion" class="form-label">Identificacion*</label>
-                                            <input type="text" class="form-control" id="identificacion" name="identificacion"   requerid>
-                                        </div>
+                        fetch(urlWebService)
+                            .then(res => res.json())
+                            .then(dataWeb => {
 
 
-                                        <div class="mb-3 col-6">
-                                            <label for="direccion" class="form-label">Dirección:</label>
-                                            <input type="text" class="form-control" id="direccion" name="direccion" >
-                                        </div>
+                                // mostramos un formulario lleno si el estatus es true
+                                if (dataWeb.status) {
 
-
-                                        <div class="mb-3 col-6">
-                                            <label for="telefono" class="form-label">Telefono:</label>
-                                            <input type="text" class="form-control" id="telefono" name="telefono" >
-                                        </div>
-
-
-                                        <div class="mb-3 col-6">
-                                            <label for="institucion" class="form-label">Institución:</label>
-                                            <input type="text" class="form-control" id="institucion" name="institucion" >
-                                        </div>
-
-                                        <div class="mb-3 col-6">
-                                            <label for="ciudad" class="form-label">Ciudad:</label>
-                                            <input type="text" class="form-control" id="ciudad" name="ciudad" >
-                                        </div>
-
+                                    console.log('si hay datos');
+                                    contenedorModal.innerHTML = `
+                                        <div class="subContenedorModal" id="subContenedorModal">
                                         
-                                    
-                                    </div>
+                                            <form action="" id="formularioModalProveedor" class="formularioModal">
+
+                                                <!-- TITULO -->
+                                                <div class="contenedorTituloModal">
+                                                    <h2>Agregar Proveedor</h2>
+                                                    <hr>
+                                                </div>
+
+                                                <!-- CERRAR -->
+                                                <span class="cerrarModal" onclick="cerrarModal()">X</span>
+
+                                                <!-- INPUTS -->
+                                                <div class="row">
+                                                
+                                                    <div class="mb-3 col-6">
+                                                        <label for="nombre" class="form-label">Nombres* </label>
+                                                        <input type="text" class="form-control" id="nombre" name="nombre" value="${dataWeb.value.persona}"  requerid>
+                                                    </div>
+
+                                                    <div class="mb-3 col-6">
+                                                        <label for="identificacion" class="form-label">Identificacion*</label>
+                                                        <input type="text" class="form-control" id="identificacion" name="identificacion" value="${dataWeb.value.cedula}"   requerid>
+                                                    </div>
 
 
-                                    <!-- BOTONES -->
-                                    <div class="row">
-                                        <div class="btn btn-danger col-6" onclick="cerrarModal()">CANCELAR</div>
-                                        <input type="submit" class="btn botonConfirmarModal col-6" value="REGISTRAR">
-                                    </div>
+                                                    <div class="mb-3 col-6">
+                                                        <label for="direccion" class="form-label">Dirección:</label>
+                                                        <input type="text" class="form-control" id="direccion" value="${dataWeb.value.direccion}"  name="direccion" >
+                                                    </div>
 
-                                </form>
 
-                            </div>
-                        `
+                                                    <div class="mb-3 col-6">
+                                                        <label for="telefono" class="form-label">Telefono:</label>
+                                                        <input type="text" class="form-control" id="telefono" value=""  name="telefono" >
+                                                    </div>
 
-                        let id_proveedorInput = document.getElementById('id_proveedorInput')
-                        let proveedor = document.getElementById('proveedor')
-                        let cedulaInput = document.getElementById('cedulaInput')
-                        let ubicacionInput = document.getElementById('ubicacionInput')
-                        let formularioModalProveedor = document.getElementById('formularioModalProveedor')
 
-                        formularioModalProveedor.addEventListener('submit', function(e) {
-                            e.preventDefault();
+                                                    <div class="mb-3 col-6">
+                                                        <label for="institucion" class="form-label">Institución:</label>
+                                                        <input type="text" class="form-control" id="institucion" value=""  name="institucion" >
+                                                    </div>
 
-                            let FD_modal_proveedor = new FormData(formularioModalProveedor);
+                                                    <div class="mb-3 col-6">
+                                                        <label for="ciudad" class="form-label">Ciudad:</label>
+                                                        <input type="text" class="form-control" id="ciudad" value="${dataWeb.value.lugar_nacimiento}"  name="ciudad" >
+                                                    </div>
 
-                            fetch('queryGuardarProveedor.php', {
-                                    method: 'POST',
-                                    body: FD_modal_proveedor
+                                                    
+                                                
+                                                </div>
+
+
+                                                <!-- BOTONES -->
+                                                <div class="row">
+                                                    <div class="btn btn-danger col-6" onclick="cerrarModal()">CANCELAR</div>
+                                                    <input type="submit" class="btn botonConfirmarModal col-6" value="REGISTRAR">
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+                                    `
+                                } else {
+
+                                    console.log('no hay datos');
+
+                                    // mostramos un formulario vacio
+                                    contenedorModal.innerHTML = `
+                                        <div class="subContenedorModal" id="subContenedorModal">
+                                        
+                                            <form action="" id="formularioModalProveedor" class="formularioModal">
+
+                                                <!-- TITULO -->
+                                                <div class="contenedorTituloModal">
+                                                    <h2>Agregar Proveedor</h2>
+                                                    <hr>
+                                                </div>
+
+                                                <!-- CERRAR -->
+                                                <span class="cerrarModal" onclick="cerrarModal()">X</span>
+
+                                                <!-- INPUTS -->
+                                                <div class="row">
+                                                
+                                                    <div class="mb-3 col-6">
+                                                        <label for="nombre" class="form-label">Nombres* </label>
+                                                        <input type="text" class="form-control" id="nombre" name="nombre"   requerid>
+                                                    </div>
+
+                                                    <div class="mb-3 col-6">
+                                                        <label for="identificacion" class="form-label">Identificacion*</label>
+                                                        <input type="text" class="form-control" id="identificacion" name="identificacion"   requerid>
+                                                    </div>
+
+
+                                                    <div class="mb-3 col-6">
+                                                        <label for="direccion" class="form-label">Dirección:</label>
+                                                        <input type="text" class="form-control" id="direccion"  name="direccion" >
+                                                    </div>
+
+
+                                                    <div class="mb-3 col-6">
+                                                        <label for="telefono" class="form-label">Telefono:</label>
+                                                        <input type="text" class="form-control" id="telefono" value=""  name="telefono" >
+                                                    </div>
+
+
+                                                    <div class="mb-3 col-6">
+                                                        <label for="institucion" class="form-label">Institución:</label>
+                                                        <input type="text" class="form-control" id="institucion" value=""  name="institucion" >
+                                                    </div>
+
+                                                    <div class="mb-3 col-6">
+                                                        <label for="ciudad" class="form-label">Ciudad:</label>
+                                                        <input type="text" class="form-control" id="ciudad"   name="ciudad" >
+                                                    </div>
+
+                                                    
+                                                
+                                                </div>
+
+
+                                                <!-- BOTONES -->
+                                                <div class="row">
+                                                    <div class="btn btn-danger col-6" onclick="cerrarModal()">CANCELAR</div>
+                                                    <input type="submit" class="btn botonConfirmarModal col-6" value="REGISTRAR">
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+                                    `
+
+                                }
+
+
+                                // caputramos datos del formulario
+                                let id_proveedorInput = document.getElementById('id_proveedorInput')
+                                let proveedor = document.getElementById('proveedor')
+                                let cedulaInput = document.getElementById('cedulaInput')
+                                let ubicacionInput = document.getElementById('ubicacionInput')
+                                let formularioModalProveedor = document.getElementById('formularioModalProveedor')
+
+
+                                // hacemos un fech para enviar los datos
+                                formularioModalProveedor.addEventListener('submit', function(e) {
+                                    e.preventDefault();
+
+                                    let FD_modal_proveedor = new FormData(formularioModalProveedor);
+
+                                    fetch('queryGuardarProveedor.php', {
+                                            method: 'POST',
+                                            body: FD_modal_proveedor
+                                        })
+                                        .then(res => res.json())
+                                        .then(data => {
+
+                                            if (data.mensaje == 'ok') {
+
+                                                cerrarModal()
+
+                                                // seteamos los datos de la cabecera auxiliar
+                                                id_proveedorInput.value = data.id
+                                                proveedor.value = FD_modal_proveedor.get('nombre')
+                                                cedulaInput.value = FD_modal_proveedor.get('identificacion')
+                                                ubicacionInput.value = FD_modal_proveedor.get('direccion')
+
+                                                alertaPersonalizada('CORRECTO', 'Guardado Correctamente', 'success', 'Regresar', '')
+
+                                            } else {
+                                                alertaPersonalizada('ERROR', 'Algo salio mal', 'error', 'Regresar', '')
+                                                return
+                                            }
+
+                                        })
                                 })
-                                .then(res => res.json())
-                                .then(data => {
 
-                                    if (data.mensaje == 'ok') {
-                                        cerrarModal()
-                                        id_proveedorInput.value = data.id
-                                        proveedor.value = FD_modal_proveedor.get('nombre')
-                                        cedulaInput.value = FD_modal_proveedor.get('identificacion')
-                                        ubicacionInput.value = FD_modal_proveedor.get('direccion')
 
-                                        alertaPersonalizada('CORRECTO', 'Guardado Correctamente', 'success', 'Regresar', '')
+                            })
+                            .finally(() => {
+                                cerrarLoader()
+                            })
 
-                                    } else {
-                                        alertaPersonalizada('ERROR', 'Algo salio mal', 'error', 'Regresar', '')
-                                        return
-                                    }
-
-                                })
-                        })
                         return
                     }
 
@@ -1222,8 +1350,10 @@ $arrayCabeceraAuxiliar = odbc_fetch_array($queryCabeceraAuxiliar);
 
 
         // MOSTRAR LA FECHA DE EMICION EN EL INPUT, CABECERA AUXILIAR
-        let fecha_actual = new Date().toISOString().split('T')[0];
-        fecha_emicion.value = fecha_actual
+        const hoy = new Date();
+        const fechaFormateada = obtenerFechaFormateada(hoy);
+        // let fecha_actual = new Date().toISOString().split('T')[0];
+        fecha_emicion.value = fechaFormateada
 
 
 
