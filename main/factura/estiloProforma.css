@@ -1,3 +1,15 @@
+/* QUITAR LOS BOTON DE INCREMNETO Y DECREMENTO DE LOS INPUTS TIPO NUMBER */
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
 .cuerpo{
     display: block;
     color: #fff;
@@ -11,7 +23,7 @@
 }
 .contenedorTitulo h1{
     font-weight: 400;
-
+    
 }
 
 
@@ -20,6 +32,7 @@
 /* CABECERA AUXILIAR */
 .cabeceraAuxiliar{
     background-color: #303039;
+    
     width: 100%;
     min-height: 100px;
 }
@@ -43,7 +56,8 @@
     border-right: 1px solid #868686;
 }
 .inputNombre::placeholder, .inputCedula::placeholder {
-    color: #fff;
+    color: #424242;
+    
 }
 
 .inputCedula{
@@ -63,9 +77,31 @@
     color: #fff;
 }
 
-.inputTelfono{
-    width: 120px;
+.inputSecundario, .inputCedula{
+    width: 170px;
+    border: 1px solid #fff;
+}
 
+
+
+
+/* CONTENEDOR INPUTS */
+.contenedorInputs{
+    border: 1px solid #ccc;
+    padding: 10px 0;
+    margin-bottom: 3rem;
+    position: relative;
+}
+.contenedorInputs .borrarCarta{
+    position: absolute;
+    width: 35px;
+    right:  10px;
+    top: 10px;
+    background-color: rgb(184, 184, 184);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 
@@ -109,6 +145,10 @@
     display: flex;
     justify-content: space-between;
 }
+.contenedorMainPago{
+    display: flex;
+    gap: 1rem;
+}
 .contenedorPrecioFinal{
     width: 220px;
     height: 75px;
@@ -123,6 +163,23 @@
 }
 
 
+/* INGRESO DE PAGO */
+.contenedorIngresoPago{
+    width: 70px;
+    height: 70px;
+    background-color: #ccc;
+    padding: 10px ;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: 0.1s ease-in all;
+}
+.contenedorIngresoPago:hover{
+    scale: 1.05;
+}
+.contenedorIngresoPago img{
+    width: 100%; height: 100%;
+    object-fit: contain;
+}
 
 
 /* BOTONES GUARDAR */

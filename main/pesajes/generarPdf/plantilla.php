@@ -18,6 +18,7 @@ $id_orden = $_REQUEST['id_orden'];
 
 ob_start();
 
+// CONSULTA TODOS LOS DATOS
 $queryDatosFactura = odbc_exec($conn, "SELECT 
 cabe.documento, 
 deta.documento,
@@ -48,6 +49,10 @@ WHERE cabe.documento = '$id_orden' AND clienProve.tipo = 'P'");
 $rowDatos = odbc_fetch_array($queryDatosFactura);
 
 
+// CONSULTA EL NOMBRE DE LA EMPRESA
+$queryNombreEmpresa = odbc_exec($conn, "SELECT empresa, direccion FROM sys_periodo WHERE codigo = '001' ");
+$rowDatosEmpresa = odbc_fetch_array($queryNombreEmpresa);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,10 +60,10 @@ $rowDatos = odbc_fetch_array($queryDatosFactura);
 <body>
 
     <p class="nombreEmpresa">
-        <span>BRAIN</span>
-        SOFT
+        <span><?php echo $rowDatosEmpresa['empresa'] ?></span>
+
     </p>
-    <p class="eslogan">Facturación Electrónica y Sistemas</p>
+    <p class="eslogan"> <?php echo $rowDatosEmpresa['direccion'] ?></p>
 
     <hr>
 
@@ -177,15 +182,15 @@ $rowDatos = odbc_fetch_array($queryDatosFactura);
             </tr>
             <tr>
                 <td>QQ NETO:</td>
-                <td><b><?php echo truncarDecimal($qqNeto, 4) ?></b> PRECIO $ <?php echo truncarDecimal($precio, 2)  ?></td>
+                <td><b><?php echo truncarDecimal($qqNeto, 2) ?></b> PRECIO $ <?php echo truncarDecimal($precio, 2)  ?></td>
             </tr>
             <tr>
                 <td>Sub Total:</td>
-                <td><b>$ <?php echo truncarDecimal($subTotal, 4)  ?></b></td>
+                <td><b>$ <?php echo truncarDecimal($subTotal, 2)  ?></b></td>
             </tr>
             <tr>
                 <td>(-) RET 1%:</td>
-                <td><b>$ <?php echo truncarDecimal($reten, 4) ?></b></td>
+                <td><b>$ <?php echo truncarDecimal($reten, 2) ?></b></td>
             </tr>
             <tr>
                 <td>A PAGAR:</td>

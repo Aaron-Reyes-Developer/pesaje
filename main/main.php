@@ -36,21 +36,23 @@ if (!isset($_SESSION['usuario'])) {
     <!-- IZQUERDA -->
     <aside class="aside" id="aside">
 
-        <div class="contenedorLogo">
+        <!-- <div class="contenedorLogo">
             <img src="../imagenes/logos/logoEmpresa.jpg" alt="">
             <img class="imagenBarAside" onclick="togleBar()" src="../imagenes/cerrarBar.png" width="35px" alt="">
 
         </div>
 
 
-        <nav class="navegacionAside">
+        <nav class="navegacionAside" id="navegacionAside">
 
             <ul>
                 <li class=""><a href="./agregarPersonas/agregarPersona.php">Agregar Personas</a></li>
-                <!-- <li><a href="./proforma/proforma.php">Proforma</a></li> -->
+                <li><a href="./proforma/proforma.php">Proforma</a></li>
                 <li><a href="./pesajes/pesajes.php">Pesajes</a></li>
-                <li><a href="./informeFacturacion/informeOrdenCompra.php">Informes</a></li>
+                <li style="cursor: pointer;" onclick="mostrarListaInforme()">Informes <img id="iamgenFlecha" src="../imagenes/down.png" width="25px" alt=""></li>
             </ul>
+
+            <ul class="listaInformes" id="listaInformes"></ul> -->
 
         </nav>
 
@@ -82,10 +84,16 @@ if (!isset($_SESSION['usuario'])) {
 
     </main>
 
+    <script src="./fuincionesJs/navegacionIzquierda.js"></script>
 
     <script>
         let aside = document.getElementById('aside')
         let imagenBar = document.getElementById('imagenBar')
+        let url = './'
+        let urlImagen = '../'
+        let navActivo = ''
+
+        aside.innerHTML = navegacionIzquierda(url, urlImagen, navActivo)
 
         const togleBar = () => {
 
@@ -101,6 +109,12 @@ if (!isset($_SESSION['usuario'])) {
 
 
         }
+
+
+
+
+
+        //
     </script>
 
 </body>

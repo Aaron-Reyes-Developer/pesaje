@@ -25,6 +25,11 @@ if (!isset($_SESSION['usuario'])) {
     <!-- CSS -->
     <link rel="stylesheet" href="../estiloMain.css">
     <link rel="stylesheet" href="./estiloPersona.css">
+    <link rel="stylesheet" href="../estiloLoader.css">
+    <link rel="stylesheet" href="../../estiloAlerta.css">
+
+    <!-- ALERTA -->
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
 
 
     <title>BrainSoft</title>
@@ -32,31 +37,19 @@ if (!isset($_SESSION['usuario'])) {
 
 <body style="background-color: #24242C;">
 
-    <!-- IZQUERDA -->
-    <aside class="aside" id="aside">
+    <!-- MODAL -->
+    <div class="contenedorModal" id="contenedorModal">
 
-        <div class="contenedorLogo">
-            <a href="../main.php">
-                <img src="../../imagenes/logos/logoEmpresa.jpg" alt="">
-            </a>
-            <img class="imagenBarAside" onclick="togleBar()" src="../../imagenes/cerrarBar.png" width="35px" alt="">
+        <!-- LOADER -->
+        <div class="contenedorLoader" id="contenedorLoader">
 
         </div>
 
+    </div>
 
-        <nav class="navegacionAside">
 
-            <ul>
-                <li class="active"><a href="">Agregar Personas</a></li>
-                <!-- <li><a href="../proforma/proforma.php">Proforma</a></li> -->
-                <li><a href="../pesajes/pesajes.php">Pesajes</a></li>
-                <li class=""><a href="../informeFacturacion/informeOrdenCompra.php">Informes</a></li>
-
-            </ul>
-
-        </nav>
-
-    </aside>
+    <!-- IZQUERDA -->
+    <aside class="aside" id="aside"></aside>
 
 
     <main>
@@ -86,63 +79,54 @@ if (!isset($_SESSION['usuario'])) {
 
 
 
-            <form action="" class="row mt-4 formulario">
+            <form action="" id="formulario" class="row mt-4 formulario">
 
                 <div class="mb-3 col-lg-6 col-sm-12">
                     <label for="tipo" class="form-label">Tipo*</label>
-                    <select class="form-select" id="tipo" aria-label="Default select example" required>
+                    <select class="form-select" id="tipo" name="tipo" aria-label="Default select example" required>
                         <option value="C">Cliente</option>
                         <option value="P">Proveedor</option>
                     </select>
                 </div>
+
+
                 <div class="mb-3 col-lg-6 col-sm-12">
                     <label for="identificacion" class="form-label">Identificacion*</label>
-                    <input type="text" class="form-control" id="identificacion" name="identificacion" placeholder="" required>
+                    <input onchange="datosWebService(event.target.value)" type="number" class="form-control" id="identificacion" name="identificacion" placeholder="" required>
                 </div>
+
 
                 <div class="mb-3 col-lg-6 col-sm-12">
                     <label for="nombres" class="form-label">Nombres*</label>
                     <input type="text" class="form-control" id="nombres" name="nombres" placeholder="" required>
                 </div>
 
+
                 <div class="mb-3 col-lg-6 col-sm-12">
-                    <label for="direccion" class="form-label">Direccion*</label>
-                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="" required>
+                    <label for="direccion" class="form-label">Direccion</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="">
+                </div>
+
+
+                <div class="mb-3 col-lg-6 col-sm-12">
+                    <label for="telefono" class="form-label"># Telefono</label>
+                    <input type="text" class="form-control" id="telefono" name="telefono" placeholder="">
+                </div>
+
+
+
+                <div class="mb-3 col-lg-6 col-sm-12">
+                    <label for="institucion" class="form-label">Institución</label>
+                    <input type="text" class="form-control" id="institucion" name="institucion" placeholder="">
                 </div>
 
                 <div class="mb-3 col-lg-6 col-sm-12">
-                    <label for="telefono" class="form-label"># Telefono*</label>
-                    <input type="text" class="form-control" id="telefono" name="telefono" placeholder="" required>
+                    <label for="ciudad" class="form-label">Ciudad</label>
+                    <input type="text" class="form-control" id="ciudad" name="ciudad" placeholder="">
                 </div>
-
-                <div class="mb-3 col-lg-6 col-sm-12">
-                    <label for="cambiar" class="form-label">Identificacion*</label>
-                    <input type="text" class="form-control" id="cambiar" name="identificacion" placeholder="" required>
-                </div>
-
-                <div class="mb-3 col-lg-6 col-sm-12">
-                    <label for="cambiar" class="form-label">Identificacion*</label>
-                    <input type="text" class="form-control" id="cambiar" name="identificacion" placeholder="" required>
-                </div>
-
-                <div class="mb-3 col-lg-6 col-sm-12">
-                    <label for="cambiar" class="form-label">Identificacion*</label>
-                    <input type="text" class="form-control" id="cambiar" name="identificacion" placeholder="" required>
-                </div>
-
-                <div class="mb-3 col-lg-6 col-sm-12">
-                    <label for="cambiar" class="form-label">Identificacion*</label>
-                    <input type="text" class="form-control" id="cambiar" name="identificacion" placeholder="" required>
-                </div>
-
-                <div class="mb-3 col-lg-6 col-sm-12">
-                    <label for="cambiar" class="form-label">Identificacion*</label>
-                    <input type="text" class="form-control" id="cambiar" name="identificacion" placeholder="" required>
-                </div>
-
 
                 <div class="mb-3 col-12">
-                    <input type="submit" class="form-control botonSubmit" id="cambiar" value="Guardar">
+                    <div class="form-control botonSubmit" id="cambiar" style="text-align: center;" onclick="guardarDatos()">Guardar</div>
                 </div>
 
             </form>
@@ -153,9 +137,22 @@ if (!isset($_SESSION['usuario'])) {
     </main>
 
 
+    <!-- ALERTA PERSONALIZADA -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="../../alertaPersonalizada.js"></script>
+
+
+    <script src="../fuincionesJs/navegacionIzquierda.js"></script>
+
+
     <script>
+        // DATOS PARA LA NAVEGACION
         let aside = document.getElementById('aside')
         let imagenBar = document.getElementById('imagenBar')
+        let url = '../'
+        let urlImagen = '../../'
+        let navActivo = 'agregarPersona'
+        aside.innerHTML = navegacionIzquierda(url, urlImagen, navActivo)
 
         const togleBar = () => {
 
@@ -169,6 +166,97 @@ if (!isset($_SESSION['usuario'])) {
 
             }
 
+
+        }
+
+        // LOADER
+        const loader = () => {
+
+            contenedorLoader.innerHTML = `
+                <div class="subContenedorLoader">
+                    <div class="custom-loader"></div>
+                </div> 
+            `
+        }
+
+        // cerrar loader
+        const cerrarLoader = () => {
+
+            contenedorLoader.innerHTML = ''
+        }
+
+
+
+        // MOSTRAR LOS DATOS DESDE WEB SERVICE
+        const datosWebService = (dato) => {
+
+            loader()
+
+            // OBETENER LOS INPUST
+            let nombres = document.getElementById('nombres')
+            let direccion = document.getElementById('direccion')
+            let telefono = document.getElementById('telefono')
+            let institucion = document.getElementById('institucion')
+            let ciudad = document.getElementById('ciudad')
+
+
+
+            let url = `http://factura.omegas-apps.com:3001/administracion/getCedula/${dato}`
+
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+
+                    console.log(data);
+
+                    if (data.status) {
+                        nombres.value = data.value.persona
+                        direccion.value = data.value.direccion
+                        ciudad.value = data.value.lugar_nacimiento
+                    }
+
+                })
+                .finally(() => {
+                    cerrarLoader()
+                })
+        }
+
+
+
+        const guardarDatos = () => {
+
+            let formulario = document.getElementById('formulario')
+
+            loader()
+
+            let FD = new FormData(formulario)
+
+
+            fetch('queryGuardarPersona.php', {
+                    method: 'POST',
+                    body: FD
+                })
+                .then(res => res.json())
+                .then(data => {
+
+                    if (data.mensaje == 'dato vacio') {
+                        alertaPersonalizada('ERROR', 'Nombre Vacio', 'info', 'Regresar', '')
+                        return
+                    }
+
+
+                    if (data.mensaje == 'existe') {
+                        alertaPersonalizada('ERROR', 'Ya existe el cliente', 'error', 'Regresar', '')
+                        return
+                    }
+
+
+                    if (data.mensaje == 'ok') {
+                        alertaPersonalizada('CORRECTO', 'Agregado Correctamente', 'success', 'Regresar', 'recargar')
+                    }
+
+                })
+                .finally(() => cerrarLoader())
 
         }
     </script>

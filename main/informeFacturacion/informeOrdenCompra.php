@@ -55,28 +55,7 @@ if (!isset($_SESSION['usuario'])) {
     </div>
 
     <!-- IZQUERDA -->
-    <aside class="aside" id="aside">
-
-        <div class="contenedorLogo">
-            <a href="../main.php">
-                <img src="../../imagenes/logos/logoEmpresa.jpg" alt="">
-            </a>
-            <img class="imagenBarAside" onclick="togleBar()" src="../../imagenes/cerrarBar.png" width="35px" alt="">
-
-        </div>
-
-
-        <nav class="navegacionAside">
-
-            <ul>
-                <li class=""><a href="../agregarPersonas/agregarPersona.php">Agregar Personas</a></li>
-                <li class=""><a href="../pesajes/pesajes.php">Pesajes</a></li>
-                <li class="active"><a href="../pesajes/pesajes.php">Informes</a></li>
-            </ul>
-
-        </nav>
-
-    </aside>
+    <aside class="aside" id="aside"></aside>
 
 
     <main>
@@ -183,12 +162,24 @@ if (!isset($_SESSION['usuario'])) {
     <script src="../../main/fuincionesJs/fechaActual.js"></script>
 
 
+    <!-- NAVEGACION INTERACTIVA -->
+    <script src="../fuincionesJs/navegacionIzquierda.js"></script>
+
+
     <script>
         // MODAL
         let contenedorModal = document.getElementById('contenedorModal')
 
+
+        // DATOS PARA LA NAVEGACION
         let aside = document.getElementById('aside')
         let imagenBar = document.getElementById('imagenBar')
+        let url = '../'
+        let urlImagen = '../../'
+        let navActivo = 'informeOrdenCompra'
+        aside.innerHTML = navegacionIzquierda(url, urlImagen, navActivo)
+
+
 
         // TABLA
         let tablaInforme = document.getElementById('tablaInforme')

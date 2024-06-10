@@ -64,29 +64,7 @@ $arrayCabeceraAuxiliar = odbc_fetch_array($queryCabeceraAuxiliar);
     </div>
 
     <!-- IZQUERDA -->
-    <aside class="aside" id="aside">
-
-        <div class="contenedorLogo">
-            <a href="../main.php">
-                <img src="../../imagenes/logos/logoEmpresa.jpg" alt="">
-            </a>
-            <img class="imagenBarAside" onclick="togleBar()" src="../../imagenes/cerrarBar.png" width="35px" alt="">
-
-        </div>
-
-
-        <nav class="navegacionAside">
-
-            <ul>
-                <li class=""><a href="../agregarPersonas/agregarPersona.php">Agregar Personas</a></li>
-                <!-- <li class=""><a href="../proforma/proforma.php">Proforma</a></li> -->
-                <li class="active"><a href="../pesajes/pesajes.php">Pesajes</a></li>
-                <li class=""><a href="../informeFacturacion/informeOrdenCompra.php">Informes</a></li>
-            </ul>
-
-        </nav>
-
-    </aside>
+    <aside class="aside" id="aside"></aside>
 
 
     <main>
@@ -448,6 +426,11 @@ $arrayCabeceraAuxiliar = odbc_fetch_array($queryCabeceraAuxiliar);
     <script src="../fuincionesJs/truncarDecimal.js"></script>
     <script src="../fuincionesJs/fechaActual.js"></script>
 
+
+    <!-- NAVEGACION INTERACTIVA -->
+    <script src="../fuincionesJs/navegacionIzquierda.js"></script>
+
+
     <script>
         let contenedorBotonesGuardar = document.getElementById('contenedorBotonesGuardar')
 
@@ -455,8 +438,14 @@ $arrayCabeceraAuxiliar = odbc_fetch_array($queryCabeceraAuxiliar);
         let contenedorModal = document.getElementById('contenedorModal')
         let contenedorLoader = document.getElementById('contenedorLoader')
 
+        // DATOS PARA LA NAVEGACION
         let aside = document.getElementById('aside')
         let imagenBar = document.getElementById('imagenBar')
+        let url = '../'
+        let urlImagen = '../../'
+        let navActivo = 'pesajes'
+        aside.innerHTML = navegacionIzquierda(url, urlImagen, navActivo)
+
 
 
         // DATOS CABECERA AUXILIAR
@@ -501,9 +490,10 @@ $arrayCabeceraAuxiliar = odbc_fetch_array($queryCabeceraAuxiliar);
             `
         }
 
+
         const cerrarLoader = () => {
 
-            contenedorLoader.remove()
+            contenedorLoader.innerHTML = ''
         }
 
 
@@ -803,10 +793,9 @@ $arrayCabeceraAuxiliar = odbc_fetch_array($queryCabeceraAuxiliar);
         }
 
 
+
         // CALCULAR EL PRECIO total precio / sub total  (tabla)
         const calcularTotalPrecio = (contador) => {
-
-
 
             // capturar datos
             let detalle_producto = document.getElementById(`detalle_producto_${contador}`)

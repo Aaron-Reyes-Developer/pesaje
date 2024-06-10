@@ -24,5 +24,24 @@ body{
 }
 
 table{
-    font-size: 1.05rem;
+    font-size: 0.8rem;
 }
+
+
+.tablaProducto{
+    width: 100%;
+    /* background-color: red;    */
+    /* border: 1px solid black; */
+}
+
+
+.tablaProducto th {
+    border: 1px solid rgb(128, 128, 128);
+}
+
+
+.tablaProducto td{
+    text-align: center;
+    font-size: 0.8rem;
+}
+
